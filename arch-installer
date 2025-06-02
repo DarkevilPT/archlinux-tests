@@ -209,11 +209,11 @@ if [[ ! -f "$IMAGE" ]]; then
 fi
 
 # Clear screen and draw UI border
-clear
-cols=$(tput cols)
-rows=$(tput lines)
-border_line=$(printf "%${cols}s" | tr ' ' '-')
-title="🖼️ Kwankiu G Boss - $(basename "$IMAGE")"
+#clear
+#cols=$(tput cols)
+#rows=$(tput lines)
+#1border_line=$(printf "%${cols}s" | tr ' ' '-')
+
 
 
 # Center title
@@ -226,7 +226,7 @@ printf "%s\n" "$border_line"
 chafa --symbols=block --size=40x40 "$IMAGE"
 
 #chafa--symbols=block --colors=240 --fill --size="${COLUMNS}x$((LINES - 5))" "$IMAGE"
-
+echo "🖼️ Kwankiu G Boss Arch Linux Installer - $(basename "$IMAGE")"
 }
 
 # Generates Dash Lines
