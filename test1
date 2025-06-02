@@ -1,20 +1,41 @@
 #!/bin/bash
 
-# Caminho da imagem para usar como título
 IMG_PATH="test2.png"
 
-# Função para limpar e desenhar a interface
+# Função para centralizar uma linha
+center_text() {
+  local text="$1"
+  local width=$(tput cols)
+  local pad=$(( (width - ${#text}) / 2 ))
+  printf "%*s%s\n" "$pad" "" "$text"
+}
+
+# Função para desenhar o menu com imagem
 draw_menu() {
   clear
-  # Renderiza a imagem com Chafa em tamanho fixo
-  chafa --symbols=block,braille,ascii --fill=block --size=80x20 "$IMG_PATH"
+  local term_height=$(tput lines)
+  local term_width=$(tput cols)
+  local img_height=20
+
+  # Mostra imagem (como "título")
+  chafa --symbols=block,braille,ascii --fill=block --size=${term_width}x${img_height} "$IMG_PATH"
+
+  # Número de linhas do menu
+  local menu_lines=7
+
+  # Calcula espaço vertical para centralizar
+  local top_margin=$(( (term_height - img_height - menu_lines) / 2 ))
+  for ((i = 0; i < top_margin; i++)); do
+    echo ""
+  done
+
+  center_text "=========== MENU ==========="
+  center_text "1) Início"
+  center_text "2) Ver informações"
+  center_text "3) Sair"
+  center_text "============================"
   echo
-  echo "=========== MENU ===========" 
-  echo "1) Início"
-  echo "2) Ver informações"
-  echo "3) Sair"
-  echo "============================"
-  echo -n "Escolha uma opção: "
+  center_text "Escolha uma opção: "
 }
 
 # Loop principal
@@ -24,20 +45,23 @@ while true; do
 
   case $choice in
     1)
-      echo -e "\nVocê escolheu: Início"
-      read -n 1 -s -r -p "Pressione qualquer tecla para continuar..."
+      clear
+      center_text "Você escolheu: Início"
+      read -n 1 -s -r -p "$(center_text 'Pressione qualquer tecla para continuar...')"
       ;;
     2)
-      echo -e "\nInformações do sistema:"
-      uname -a
-      read -n 1 -s -r -p "Pressione qualquer tecla para continuar..."
+      clear
+      center_text "Informações do sistema:"
+      center_text "$(uname -a)"
+      echo
+      read -n 1 -s -r -p "$(center_text 'Pressione qualquer tecla para continuar...')"
       ;;
     3)
-      echo -e "\nSaindo..."
+      center_text "Saindo..."
       break
       ;;
     *)
-      echo -e "\nOpção inválida."
+      center_text "Opção inválida."
       sleep 1
       ;;
   esac
