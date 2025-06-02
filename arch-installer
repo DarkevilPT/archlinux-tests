@@ -196,7 +196,7 @@ if ! command -v chafa &> /dev/null; then
 fi
 
 # Get image path
-IMAGE="$1"
+IMAGE="teste.jpg"
 if [[ -z "$IMAGE" ]]; then
     read -p "🖼️  Enter the path to the image: " IMAGE
 fi
