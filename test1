@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Caminho da imagem para usar como título
+IMG_PATH="test2.png"
+
+# Função para limpar e desenhar a interface
+draw_menu() {
+  clear
+  # Renderiza a imagem com Chafa em tamanho fixo
+  chafa --symbols=block,braille,ascii --fill=block --size=80x20 "$IMG_PATH"
+  echo
+  echo "=========== MENU ===========" 
+  echo "1) Início"
+  echo "2) Ver informações"
+  echo "3) Sair"
+  echo "============================"
+  echo -n "Escolha uma opção: "
+}
+
+# Loop principal
+while true; do
+  draw_menu
+  read -r choice
+
+  case $choice in
+    1)
+      echo -e "\nVocê escolheu: Início"
+      read -n 1 -s -r -p "Pressione qualquer tecla para continuar..."
+      ;;
+    2)
+      echo -e "\nInformações do sistema:"
+      uname -a
+      read -n 1 -s -r -p "Pressione qualquer tecla para continuar..."
+      ;;
+    3)
+      echo -e "\nSaindo..."
+      break
+      ;;
+    *)
+      echo -e "\nOpção inválida."
+      sleep 1
+      ;;
+  esac
+done
