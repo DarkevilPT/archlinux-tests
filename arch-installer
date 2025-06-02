@@ -225,9 +225,10 @@ printf "%s\n" "$border_line"
 clear
 # Show image with chafa
 #chafa --symbols=block --size=40x40 "$IMAGE"
-chafa --symbols=block --colors=240 --fill "$IMAGE"
+chafa --fill=block --symbols=block,braille,ascii "$IMAGE"
 
 echo "🖼️ Kwankiu G Boss Arch Linux Installer"
+
 }
 
 # Generates Dash Lines
