@@ -183,12 +183,48 @@ titlelogo_string() {
     
     # Generate the linespacing string with the specified count of spaces
     local linespacing=$(printf "%${count}s")
-    local logostring="chafa --symbols=block --size=40x20 ~/teste.jpg"
+    #local logostring="chafa --symbols=block --size=40x20 ~/teste.jpg"
     # $linespacing                   _     _      _                  \n$linespacing    /\            | |   | |    (_)                 \n$linespacing   /  \   _ __ ___| |__ | |     _ _ __  _   ___  __\n$linespacing  / /\ \ | '__/ __| '_ \| |    | | '_ \| | | \ \/ /\n$linespacing / ____ \| | | (__| | | | |____| | | | | |_| |>  < \n$linespacing/_/    \_\_|  \___|_| |_|______|_|_| |_|\__,_/_/\_\ __\n$linespacing _____           _        _ _           (  __)/  \(  _ \  \n$linespacing|_   _|         | |      | | |           ) _)(  O ))   /  \n$linespacing  | |  _ __  ___| |_ __ _| | | ___ _ __ (__)  \__/(__\_)\n$linespacing  | | | '_ \/ __| __/ _\` | | |/ _ \ '__|    /__\ (  _ \( \/ )\n$linespacing _| |_| | | \__ \ || (_| | | |  __/ |      /    \ )   // \/ \ \n$linespacing|_____|_| |_|___/\__\__,_|_|_|\___|_|      \_/\_/(__\_)\_)(_/\n$linespacing"
     # Echo the logo string
-    
+    #echo "$logostring"
 
-    echo "$logostring"
+# Check for chafa
+if ! command -v chafa &> /dev/null; then
+    echo "❌ chafa is not installed. Install it with: sudo apt install chafa";
+    sudo pacman -S chafa -noconfirm
+    exit 1
+fi
+
+# Get image path
+IMAGE="$1"
+if [[ -z "$IMAGE" ]]; then
+    read -p "🖼️  Enter the path to the image: " IMAGE
+fi
+
+# Validate file
+if [[ ! -f "$IMAGE" ]]; then
+    echo "❌ File not found: $IMAGE"
+    exit 1
+fi
+
+# Clear screen and draw UI border
+clear
+cols=$(tput cols)
+rows=$(tput lines)
+
+border_line=$(printf "%${cols}s" | tr ' ' '-')
+title="🖼️ ASCII Viewer - $(basename "$IMAGE")"
+
+# Center title
+pad=$(( (cols - ${#title}) / 2 ))
+printf "%s\n" "$border_line"
+printf "%*s%s\n" $pad "" "$title"
+printf "%s\n" "$border_line"
+
+# Show image with chafa
+chafa --symbols=block --size=${cols}x$((rows - 6)) "$IMAGE"
+
+
 }
 
 # Generates Dash Lines

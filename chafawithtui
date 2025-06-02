@@ -2,7 +2,8 @@
 
 # Check for chafa
 if ! command -v chafa &> /dev/null; then
-    echo "❌ chafa is not installed. Install it with: sudo apt install chafa"
+    echo "❌ chafa is not installed. Install it with: sudo apt install chafa";
+    sudo pacman -S chafa -noconfirm
     exit 1
 fi
 
@@ -35,8 +36,3 @@ printf "%s\n" "$border_line"
 # Show image with chafa
 chafa --symbols=block --size=${cols}x$((rows - 6)) "$IMAGE"
 
-# Bottom border and exit
-printf "%s\n" "$border_line"
-echo "Press any key to exit..."
-read -n 1 -s
-clear
