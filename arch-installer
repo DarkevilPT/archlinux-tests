@@ -224,7 +224,8 @@ printf "%s\n" "$border_line"
 # Show image with chafa
 border_line=$(printf "%${cols}s" | tr ' ' '-')
 title="🖼️ Kwankiu G Boss - $(basename "$IMAGE")"
-chafa --symbols=block  --fill "$IMAGE"
+#chafa --symbols=block --size=40x40 "$IMAGE"
+chafa --symbols=block --fill "$IMAGE"
 
 
 }
