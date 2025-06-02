@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Check for chafa
+if ! command -v chafa &> /dev/null; then
+    echo "❌ chafa is not installed. Install it with: sudo apt install chafa"
+    exit 1
+fi
+
+# Get image path
+IMAGE="$1"
+if [[ -z "$IMAGE" ]]; then
+    read -p "🖼️  Enter the path to the image: " IMAGE
+fi
+
+# Validate file
+if [[ ! -f "$IMAGE" ]]; then
+    echo "❌ File not found: $IMAGE"
+    exit 1
+fi
+
+# Clear screen and draw UI border
+clear
+cols=$(tput cols)
+rows=$(tput lines)
+
+border_line=$(printf "%${cols}s" | tr ' ' '-')
+title="🖼️ ASCII Viewer - $(basename "$IMAGE")"
+
+# Center title
+pad=$(( (cols - ${#title}) / 2 ))
+printf "%s\n" "$border_line"
+printf "%*s%s\n" $pad "" "$title"
+printf "%s\n" "$border_line"
+
+# Show image with chafa
+chafa --symbols=block --size=${cols}x$((rows - 6)) "$IMAGE"
+
+# Bottom border and exit
+printf "%s\n" "$border_line"
+echo "Press any key to exit..."
+read -n 1 -s
+clear
