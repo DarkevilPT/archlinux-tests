@@ -223,7 +223,9 @@ printf "%*s%s\n" $pad "" "$title"
 printf "%s\n" "$border_line"
 
 # Show image with chafa
-chafa --symbols=block --colors=240 --fill --size=40x40 "$IMAGE"
+#chafa --symbols=block --size=40x40 "$IMAGE"
+
+chafa--symbols=block --colors=240 --fill --size="${COLUMNS}x$((LINES - 5))" "$IMAGE"
 
 }
 
