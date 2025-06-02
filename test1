@@ -1,75 +1,68 @@
 #!/bin/bash
 
-IMG_PATH="test1.png"
+IMG_PATH="test2.png"
 
-# Renderiza a imagem com chafa e guarda em variável
-render_image() {
-    chafa --symbols=block,braille,ascii --fill=block --size=80x20 "$IMG_PATH"
+# Função para centralizar uma linha
+center_text() {
+  local text="$1"
+  local width=$(tput cols)
+  local pad=$(( (width - ${#text}) / 2 ))
+  printf "%*s%s\n" "$pad" "" "$text"
 }
 
-# Função para centralizar texto na tela
-print_centered() {
-    local text="$1"
-    local cols=$(tput cols)
-    local x=$(( (cols - ${#text}) / 2 ))
-    printf "%*s\n" "$x" "$text"
-}
-
+# Função para desenhar o menu com imagem
 draw_menu() {
-    clear
-    cols=$(tput cols)
-    rows=$(tput lines)
+  clear
+  local term_height=$(tput lines)
+  local term_width=$(tput cols)
+  local img_height=20
 
-    # Renderiza imagem com chafa no topo
-    render_image
+  # Mostra imagem (como "título")
+  chafa --symbols=block,braille,ascii --fill=block --size=${term_width}x${img_height} "$IMG_PATH"
 
+  # Número de linhas do menu
+  local menu_lines=7
+
+  # Calcula espaço vertical para centralizar
+  local top_margin=$(( (term_height - img_height - menu_lines) / 2 ))
+  for ((i = 0; i < top_margin; i++)); do
     echo ""
+  done
 
-    # Calcula posição vertical central (após imagem)
-    # Assume imagem ocupa 20 linhas (ajuste se mudar --size)
-    local remaining_lines=$(( rows - 20 ))
-    local menu_lines=7  # Quantas linhas tem o menu + espaço
-    local top_padding=$(( (remaining_lines - menu_lines) / 2 ))
-
-    for ((i=0; i<top_padding; i++)); do echo ""; done
-
-    print_centered "=========== MENU ==========="
-    print_centered "1) Início"
-    print_centered "2) Ver informações"
-    print_centered "3) Sair"
-    print_centered "============================"
-    echo ""
-    print_centered "Escolha uma opção: "
+  center_text "=========== MENU ==========="
+  center_text "1) Início"
+  center_text "2) Ver informações"
+  center_text "3) Sair"
+  center_text "============================"
+  echo
+  center_text "Escolha uma opção: "
 }
 
+# Loop principal
 while true; do
-    draw_menu
-    # Move cursor para leitura centralizada
-    read -r -s -n1 choice
+  draw_menu
+  read -r choice
 
-    case $choice in
-        1)
-            clear
-            echo -e "\nVocê escolheu: Início"
-            read -n 1 -s -r -p "Pressione qualquer tecla para voltar..."
-            ;;
-        2)
-            clear
-            echo -e "\nInformações do sistema:\n"
-            uname -a
-            echo ""
-            read -n 1 -s -r -p "Pressione qualquer tecla para voltar..."
-            ;;
-        3)
-            clear
-            print_centered "Saindo... 👋"
-            sleep 1
-            break
-            ;;
-        *)
-            echo ""
-            print_centered "Opção inválida. Tente novamente."
-            sleep 1
-            ;;
-    esac
+  case $choice in
+    1)
+      clear
+      center_text "Você escolheu: Início"
+      read -n 1 -s -r -p "$(center_text 'Pressione qualquer tecla para continuar...')"
+      ;;
+    2)
+      clear
+      center_text "Informações do sistema:"
+      center_text "$(uname -a)"
+      echo
+      read -n 1 -s -r -p "$(center_text 'Pressione qualquer tecla para continuar...')"
+      ;;
+    3)
+      center_text "Saindo..."
+      break
+      ;;
+    *)
+      center_text "Opção inválida."
+      sleep 1
+      ;;
+  esac
 done
