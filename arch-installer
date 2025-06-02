@@ -176,7 +176,7 @@ trap "rm -rf /tmp/arch-installer; exit" INT
 titlelogo_string() {
     # Check if the argument count is provided
     if [ -z "$1" ]; then
-        local count=100
+        local count=8
     else
         local count=$1
     fi
@@ -188,7 +188,8 @@ titlelogo_string() {
     #local logostring="chafa --fill=block --symbols=block,braille,ascii --size=80x40 "$IMAGE""
 
     # Echo the logo string
-    echo "$logostring chafa --fill=block --symbols=block,braille,ascii --size=80x40 "$IMAGE""
+    echo "$logostring" 
+    chafa --fill=block --symbols=block,braille,ascii --size=80x40 "$IMAGE"
 
 ## - Testing Proper Logo
 # Check for chafa
