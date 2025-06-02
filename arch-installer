@@ -197,7 +197,7 @@ if ! command -v chafa &> /dev/null; then
 fi
 
 # Get image path
-IMAGE="teste.jpg"
+IMAGE="test1.png"
 if [[ -z "$IMAGE" ]]; then
     read -p "🖼️  Enter the path to the image: " IMAGE
 fi
@@ -226,7 +226,7 @@ printf "%s\n" "$border_line"
 chafa --symbols=block --size=40x40 "$IMAGE"
 
 #chafa--symbols=block --colors=240 --fill --size="${COLUMNS}x$((LINES - 5))" "$IMAGE"
-echo "🖼️ Kwankiu G Boss Arch Linux Installer - $(basename "$IMAGE")"
+echo "🖼️ Kwankiu G Boss Arch Linux Installer"
 }
 
 # Generates Dash Lines
